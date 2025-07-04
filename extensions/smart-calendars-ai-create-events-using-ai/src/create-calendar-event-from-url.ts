@@ -1,5 +1,4 @@
 import { Clipboard, showToast, Toast, open } from "@raycast/api";
-import { showFailureToast } from "@raycast/utils";
 
 export default async function Command() {
   try {
@@ -49,7 +48,7 @@ export default async function Command() {
     const url = `smartcalendars://webpage/${encodedUrl}`;
 
     // Update toast
-    loadingToast.title = "Creating calendar event from webpage...";
+    loadingToast.title = "Creating calendar event/reminder from webpage...";
 
     // Open the URL
     await open(url);
@@ -57,11 +56,15 @@ export default async function Command() {
     // Show success toast
     await showToast({
       style: Toast.Style.Success,
-      title: "Calendar event created",
+      title: "Calendar event/reminder created",
       message: "URL sent to Smart Calendars app",
     });
   } catch (error) {
     // Show error toast
-    await showFailureToast(error, { title: "Failed to create calendar event" });
+    await showToast({
+      style: Toast.Style.Failure,
+      title: "Failed to create calendar event/reminder",
+      message: String(error),
+    });
   }
 }
